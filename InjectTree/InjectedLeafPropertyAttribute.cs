@@ -21,5 +21,4 @@ public sealed class InjectedLeafPropertyAttribute : Attribute
     /// Indicates whether the property is required. Defaults to true.
     /// </summary>
     public bool IsRequired { get; }
-
 }

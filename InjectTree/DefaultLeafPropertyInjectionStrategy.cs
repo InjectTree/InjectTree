@@ -6,13 +6,16 @@ namespace InjectTree;
 
 public sealed class DefaultLeafPropertyInjectionStrategy : ILeafPropertyInjectionStrategy
 {
-    public void Inject(IServiceProvider serviceProvider, object instance, params object[] parameters)
+    public void Inject(object instance, IServiceProvider serviceProvider, params object[] parameters)
     {
         if (instance is null)
             throw new ArgumentNullException(nameof(instance));
 
         if (serviceProvider is null)
             throw new ArgumentNullException(nameof(serviceProvider));
+
+        if (parameters is null)
+            throw new ArgumentNullException(nameof(parameters));
 
         var instanceType = instance.GetType();
         foreach (var property in instanceType.GetProperties(BindingFlags.Instance | BindingFlags.Public))

@@ -10,8 +10,8 @@ public interface ILeafPropertyInjectionStrategy
     /// <summary>
     /// Injects properties into a leaf object instance.
     /// </summary>
-    /// <param name="serviceProvider">The service provider used for injection.</param>
     /// <param name="instance">The target instance.</param>
+    /// <param name="serviceProvider">The service provider used for injection.</param>
     /// <param name="parameters">Optional parameters for the injection process.</param>
-    void Inject(IServiceProvider serviceProvider, object instance, params object[] parameters);
+    void Inject(object instance, IServiceProvider serviceProvider, params object[] parameters);
 }

@@ -13,15 +13,24 @@ public static class InjectTreeUtilities
     /// Creates an instance of the specified type and recursively injects all
     /// injectable leaves within its object tree, using both the service provider
     /// and optional extra parameters.
+    /// </summary>
     /// <typeparam name="TRoot">The type of the root object to create and inject.</typeparam>
     /// <param name="serviceProvider">The service provider used to resolve dependencies.</param>
     /// <param name="parameters">Optional extra parameters to pass to the constructor and injection process.</param>
-    /// </summary>
+    /// <returns>
+    /// An instance of <typeparamref name="TRoot"/> with all injectable leaves in its object tree injected.
+    /// </returns>
     public static TRoot CreateInstance<TRoot>(IServiceProvider serviceProvider, params object[] parameters)
         where TRoot : class
     {
+        if (serviceProvider is null)
+            throw new ArgumentNullException(nameof(serviceProvider));
+
+        if (parameters is null)
+            throw new ArgumentNullException(nameof(parameters));
+
         var instance = ActivatorUtilities.CreateInstance<TRoot>(serviceProvider, parameters);
-        InjectTree(serviceProvider, instance, parameters);
+        InjectTree(instance, serviceProvider, parameters);
         return instance;
     }
 
@@ -29,20 +38,26 @@ public static class InjectTreeUtilities
     /// Traverses the tree starting from the root object, injecting properties
     /// and recursively processing branches.
     /// </summary>
-    /// <param name="serviceProvider">The service provider used to resolve dependencies.</param>
     /// <param name="root">The root object to start tree traversal and injection from.</param>
+    /// <param name="serviceProvider">The service provider used to resolve dependencies.</param>
     /// <param name="parameters">Optional extra parameters to pass to the injection process.</param>
-    public static void InjectTree(IServiceProvider serviceProvider, object root, params object[] parameters)
+    public static void InjectTree(object root, IServiceProvider serviceProvider, params object[] parameters)
     {
         if (root is null)
             throw new ArgumentNullException(nameof(root));
 
+        if (serviceProvider is null)
+            throw new ArgumentNullException(nameof(serviceProvider));
+
+        if (parameters is null)
+            throw new ArgumentNullException(nameof(parameters));
+
         var leafPropertyInjectionStrategy = serviceProvider.GetRequiredService<ILeafPropertyInjectionStrategy>();
         var treeTraversalStrategy = serviceProvider.GetRequiredService<ITreeTraversalStrategy>();
 
-        foreach (var node in treeTraversalStrategy.EnumerateNodes(serviceProvider, root))
+        foreach (var node in treeTraversalStrategy.EnumerateNodes(root, serviceProvider))
         {
-            leafPropertyInjectionStrategy.Inject(serviceProvider, node, parameters);
+            leafPropertyInjectionStrategy.Inject(node, serviceProvider, parameters);
         }
     }
 }

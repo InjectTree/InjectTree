@@ -10,7 +10,7 @@
 		<PackageTags>DependencyInjection;DI;PropertyInjection;Inject</PackageTags>
 		<Title>InjectTree</Title>
 		<RepositoryUrl>https://github.com/InjectTree/InjectTree</RepositoryUrl>
-		<Version>0.2.1</Version>
+		<Version>0.3.0</Version>
 		<Description>Lightweight .NET library for recursive property injection.
 Automatically populates object graphs like UI trees.</Description>
 		<Copyright>© 2025 Pierre Lando</Copyright>

@@ -8,10 +8,13 @@ namespace InjectTree;
 
 public sealed class DefaultTreeTraversalStrategy : ITreeTraversalStrategy
 {
-    public IEnumerable EnumerateNodes(IServiceProvider serviceProvider, object root)
+    public IEnumerable EnumerateNodes(object root, IServiceProvider serviceProvider)
     {
         if (root is null)
             throw new ArgumentNullException(nameof(root));
+
+        if (serviceProvider is null)
+            throw new ArgumentNullException(nameof(serviceProvider));
 
         var branchProviders = serviceProvider.GetServices<IBranchProvider>().ToArray();
 
