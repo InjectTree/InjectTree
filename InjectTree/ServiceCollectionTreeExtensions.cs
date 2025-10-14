@@ -31,7 +31,8 @@ public static class ServiceCollectionTreeExtensions
     {
         return services
             .AddSingleton<ILeafPropertyInjectionStrategy, DefaultLeafPropertyInjectionStrategy>()
-            .AddSingleton<ITreeTraversalStrategy, DefaultTreeTraversalStrategy>();
+            .AddSingleton<ITreeTraversalStrategy, DefaultTreeTraversalStrategy>()
+            .AddBranchProvider<IInjectedTreeNode>(n => n.GetBranches());
     }
 
     /// <summary>
