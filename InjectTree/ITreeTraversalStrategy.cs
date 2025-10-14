@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 
 namespace InjectTree;
 
@@ -14,5 +14,5 @@ public interface ITreeTraversalStrategy
     /// <param name="serviceProvider">The service provider used to resolve branch providers.</param>
     /// <param name="root">The root node.</param>
     /// <returns>An enumerable sequence of all nodes in the tree.</returns>
-    IEnumerable<object> EnumerateNodes(IServiceProvider serviceProvider, object root);
+    IEnumerable EnumerateNodes(IServiceProvider serviceProvider, object root);
 }

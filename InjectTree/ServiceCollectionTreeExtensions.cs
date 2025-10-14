@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InjectTree;
@@ -8,6 +10,19 @@ namespace InjectTree;
 public static class ServiceCollectionTreeExtensions
 {
     /// <summary>
+    /// Registers a singleton <see cref="IBranchProvider"/> for the specified root type, using the provided function to retrieve branches (children) from a node.
+    /// </summary>
+    /// <typeparam name="TRoot">The type of the root node.</typeparam>
+    /// <param name="services">The <see cref="IServiceCollection"/> to add the branch provider to.</param>
+    /// <param name="getBranchesFunc">A function that returns the branches (children) for a given node of type <typeparamref name="TRoot"/>.</param>
+    /// <returns>The <see cref="IServiceCollection"/> for chaining.</returns>
+    public static IServiceCollection AddBranchProvider<TRoot>(this IServiceCollection services, Func<TRoot, IEnumerable> getBranchesFunc)
+    {
+        return services.AddSingleton<IBranchProvider>(new TypedBranchProvider<TRoot>(getBranchesFunc));
+    }
+
+
+    /// <summary>
     /// Register default services for InjectTree.
     /// </summary>
     /// <param name="services">The IServiceCollection to add InjectTree to.</param>
@@ -15,22 +30,20 @@ public static class ServiceCollectionTreeExtensions
     public static IServiceCollection AddInjectTree(this IServiceCollection services)
     {
         return services
-            .AddSingleton<IBranchProvider, InjectableNodeBranchProvider>()
             .AddSingleton<ILeafPropertyInjectionStrategy, DefaultLeafPropertyInjectionStrategy>()
             .AddSingleton<ITreeTraversalStrategy, DefaultTreeTraversalStrategy>();
     }
 
     /// <summary>
-    /// Registers a singleton service of type T using InjectTreeUtilities for instantiation.
+    /// Registers a singleton service of type TRoot using InjectTreeUtilities for instantiation.
     /// </summary>
-    /// <typeparam name="T">The type of the service to register.</typeparam>
+    /// <typeparam name="TRoot">The type of the service to register.</typeparam>
     /// <param name="services">The IServiceCollection to add the service to.</param>
     /// <returns>The IServiceCollection for chaining.</returns>
-    public static IServiceCollection AddTreeSingleton<T>(this IServiceCollection services)
-        where T : class
+    public static IServiceCollection AddTreeSingleton<TRoot>(this IServiceCollection services)
+        where TRoot : class
     {
-        // Register T as a singleton, using InjectTreeUtilities to create the instance
-        return services.AddSingleton<T>(sp => InjectTreeUtilities.CreateInstance<T>(sp));
+        return services.AddSingleton<TRoot>(sp => InjectTreeUtilities.CreateInstance<TRoot>(sp));
     }
 
     /// <summary>
@@ -48,15 +61,15 @@ public static class ServiceCollectionTreeExtensions
     }
 
     /// <summary>
-    /// Registers a scoped service of type T using InjectTreeUtilities for instantiation.
+    /// Registers a scoped service of type TRoot using InjectTreeUtilities for instantiation.
     /// </summary>
-    /// <typeparam name="T">The type of the service to register.</typeparam>
+    /// <typeparam name="TRoot">The type of the service to register.</typeparam>
     /// <param name="services">The IServiceCollection to add the service to.</param>
     /// <returns>The IServiceCollection for chaining.</returns>
-    public static IServiceCollection AddTreeScoped<T>(this IServiceCollection services)
-        where T : class
+    public static IServiceCollection AddTreeScoped<TRoot>(this IServiceCollection services)
+        where TRoot : class
     {
-        return services.AddScoped<T>(sp => InjectTreeUtilities.CreateInstance<T>(sp));
+        return services.AddScoped<TRoot>(sp => InjectTreeUtilities.CreateInstance<TRoot>(sp));
     }
 
     /// <summary>
@@ -74,15 +87,15 @@ public static class ServiceCollectionTreeExtensions
     }
 
     /// <summary>
-    /// Registers a transient service of type T using InjectTreeUtilities for instantiation.
+    /// Registers a transient service of type TRoot using InjectTreeUtilities for instantiation.
     /// </summary>
-    /// <typeparam name="T">The type of the service to register.</typeparam>
+    /// <typeparam name="TRoot">The type of the service to register.</typeparam>
     /// <param name="services">The IServiceCollection to add the service to.</param>
     /// <returns>The IServiceCollection for chaining.</returns>
-    public static IServiceCollection AddTreeTransient<T>(this IServiceCollection services)
-        where T : class
+    public static IServiceCollection AddTreeTransient<TRoot>(this IServiceCollection services)
+        where TRoot : class
     {
-        return services.AddTransient<T>(sp => InjectTreeUtilities.CreateInstance<T>(sp));
+        return services.AddTransient<TRoot>(sp => InjectTreeUtilities.CreateInstance<TRoot>(sp));
     }
 
     /// <summary>

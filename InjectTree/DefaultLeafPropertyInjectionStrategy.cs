@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace InjectTree;
 
-public class DefaultLeafPropertyInjectionStrategy : ILeafPropertyInjectionStrategy
+public sealed class DefaultLeafPropertyInjectionStrategy : ILeafPropertyInjectionStrategy
 {
     public void Inject(IServiceProvider serviceProvider, object instance, params object[] parameters)
     {

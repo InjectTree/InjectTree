@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InjectTree;
 
-public class DefaultTreeTraversalStrategy : ITreeTraversalStrategy
+public sealed class DefaultTreeTraversalStrategy : ITreeTraversalStrategy
 {
-    public IEnumerable<object> EnumerateNodes(IServiceProvider serviceProvider, object root)
+    public IEnumerable EnumerateNodes(IServiceProvider serviceProvider, object root)
     {
         if (root is null)
             throw new ArgumentNullException(nameof(root));
