@@ -30,13 +30,17 @@ public sealed class DefaultLeafPropertyInjectionStrategy : ILeafPropertyInjectio
             var value = parameters.FirstOrDefault(parameter => property.PropertyType.IsInstanceOfType(parameter)) ??
                         serviceProvider.GetService(property.PropertyType);
 
-            if (value is null && attribute.IsRequired)
-                throw new InvalidOperationException(
-                    $"Required property '{property.Name}' of type '{property.PropertyType}' " +
-                    $"on instance '{instanceType.FullName}' could not be resolved.");
-
-            if (value is not null)
+            if (value is null)
+            {
+                if (attribute.IsRequired)
+                    throw new InvalidOperationException(
+                        $"Required property '{property.Name}' of type '{property.PropertyType}' " +
+                        $"on instance '{instanceType.FullName}' could not be resolved.");
+            }
+            else
+            {
                 property.SetValue(instance, value);
+            }
         }
     }
 }
