@@ -21,6 +21,7 @@ public sealed class DefaultTreeTraversalStrategy : ITreeTraversalStrategy
         var discovered = new HashSet<object>();
         var queue = new Queue<object>();
 
+        discovered.Add(root);
         queue.Enqueue(root);
 
         while (queue.Count > 0)
@@ -38,4 +39,5 @@ public sealed class DefaultTreeTraversalStrategy : ITreeTraversalStrategy
             }
         }
     }
+
 }
