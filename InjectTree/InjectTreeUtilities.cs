@@ -60,4 +60,27 @@ public static class InjectTreeUtilities
             leafPropertyInjectionStrategy.Inject(node, serviceProvider, parameters);
         }
     }
+
+    /// <summary>
+    /// Traverses the tree starting from the root object and injects null values into
+    /// the injectable leaves. This uses the registered <see cref="ITreeTraversalStrategy"/>.
+    /// </summary>
+    /// <param name="root">The root object to start tree traversal from.</param>
+    /// <param name="serviceProvider">The service provider used to resolve the traversal strategy.</param>
+    public static void InjectTreeWithNull(object root, IServiceProvider serviceProvider)
+    {
+        if (root is null)
+            throw new ArgumentNullException(nameof(root));
+
+        if (serviceProvider is null)
+            throw new ArgumentNullException(nameof(serviceProvider));
+
+        var nullLeafPropertyInjectionStrategy = new NullLeafPropertyInjectionStrategy();
+        var treeTraversalStrategy = serviceProvider.GetRequiredService<ITreeTraversalStrategy>();
+
+        foreach (var node in treeTraversalStrategy.EnumerateNodes(root, serviceProvider))
+        {
+            nullLeafPropertyInjectionStrategy.Inject(node);
+        }
+    }
 }
