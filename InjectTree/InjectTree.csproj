@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<Authors>Pierre Lando</Authors>
 		<Compagny>InjectTree</Compagny>
-		<TargetFrameworks>net8.0;net48</TargetFrameworks>
+		<TargetFrameworks>net10.0;net48</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
@@ -10,7 +10,7 @@
 		<PackageTags>DependencyInjection;DI;PropertyInjection;Inject</PackageTags>
 		<Title>InjectTree</Title>
 		<RepositoryUrl>https://github.com/InjectTree/InjectTree</RepositoryUrl>
-		<Version>0.3.1</Version>
+		<Version>0.3.2</Version>
 		<Description>Lightweight .NET library for recursive property injection.
 Automatically populates object graphs like UI trees.</Description>
 		<Copyright>© 2025 Pierre Lando</Copyright>

@@ -16,7 +16,7 @@ public static class InjectTreeUtilities
     /// </summary>
     /// <typeparam name="TRoot">The type of the root object to create and inject.</typeparam>
     /// <param name="serviceProvider">The service provider used to resolve dependencies.</param>
-    /// <param name="parameters">Optional extra parameters to pass to the constructor and injection process.</param>
+    /// <param name="parameters">Optional extra parameters to pass to the injection process.</param>
     /// <returns>
     /// An instance of <typeparamref name="TRoot"/> with all injectable leaves in its object tree injected.
     /// </returns>
@@ -29,7 +29,7 @@ public static class InjectTreeUtilities
         if (parameters is null)
             throw new ArgumentNullException(nameof(parameters));
 
-        var instance = ActivatorUtilities.CreateInstance<TRoot>(serviceProvider, parameters);
+        var instance = ActivatorUtilities.CreateInstance<TRoot>(serviceProvider);
         InjectTree(instance, serviceProvider, parameters);
         return instance;
     }
