@@ -39,7 +39,7 @@ public partial class MainForm : Form
     public IOptionalService Optional { get; set; }
 
     [InjectedLeafProperty]
-    public IModel? Model
+    public IModel Model
     {
         get => field;
         set
@@ -56,7 +56,7 @@ public partial class MainForm : Form
 
             if (field is not null)
             {
-                this.DataBindings.Add(nameof(Text), field, nameof(IModel.Title));
+                DataBindings.Add(nameof(Text), field, nameof(IModel.Title));
             }
         }
     }
