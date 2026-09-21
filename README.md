@@ -37,6 +37,29 @@ public partial class MainForm : Form
 
     [InjectedLeafProperty(isRequired: false)]
     public IOptionalService Optional { get; set; }
+
+    [InjectedLeafProperty]
+    public IModel? Model
+    {
+        get => field;
+        set
+        {
+            if (Equals(field, value))
+                return;
+
+            if (field is not null)
+            {
+                DataBindings.Clear();
+            }
+
+            field = value;
+
+            if (field is not null)
+            {
+                this.DataBindings.Add(nameof(Text), field, nameof(IModel.Title));
+            }
+        }
+    }
 }
 ```
 
