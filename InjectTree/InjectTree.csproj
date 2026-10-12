@@ -19,10 +19,10 @@ Automatically populates object graphs like UI trees.</Description>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 
-    <PropertyGroup>
-      <AssemblyOriginatorKeyFile>../signature.snk</AssemblyOriginatorKeyFile>
-      <SignAssembly>true</SignAssembly>
-    </PropertyGroup>
+	<PropertyGroup>
+		<AssemblyOriginatorKeyFile>../signature.snk</AssemblyOriginatorKeyFile>
+		<SignAssembly>true</SignAssembly>
+	</PropertyGroup>
 
 	<ItemGroup>
 	  <None Include="..\README.md">
